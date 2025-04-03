@@ -11,7 +11,7 @@ phases:
       - dotnet build --configuration Release
       - dotnet test --no-build
       - dotnet lambda package --configuration Release --output-package lambda.zip
-      - dotnet lambda deploy-function MyLambdaFunction --region us-east-1
+      - dotnet lambda deploy-function Auth --region us-east-1
 artifacts:
   files:
     - lambda.zip
