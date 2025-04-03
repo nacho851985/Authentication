@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: 8.0
+  build:
+    commands:
+      - dotnet restore
+      - dotnet build --configuration Release
+      - dotnet test --no-build
+      - dotnet lambda package --configuration Release --output-package lambda.zip
+      - dotnet lambda deploy-function MyLambdaFunction --region us-east-1
+artifacts:
+  files:
+    - lambda.zip
