@@ -7,11 +7,14 @@ phases:
   build:
     commands:
       - cd Authentication
+      - dotnet tool install -g Amazon.Lambda.Tools
+      - export PATH="$PATH:/root/.dotnet/tools"
+      - echo 'Lambda CLI installed'
       - dotnet restore
       - dotnet build --configuration Release
-      - dotnet test --no-build
+      - dotnet test --configuration Release --no-build
       - dotnet lambda package --configuration Release --output-package lambda.zip
       - dotnet lambda deploy-function Auth --region us-east-1
 artifacts:
   files:
-    - lambda.zip
+    - Authentication/lambda.zip
