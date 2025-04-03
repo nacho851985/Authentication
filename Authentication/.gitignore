@@ -1,0 +1,42 @@
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+## Build results
+bin/
+obj/
+out/
+TestResults/
+
+## ASP.NET
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+## Rider
+.idea/
+
+## VSCode
+.vscode/
+.vs
+
+## NuGet
+*.nupkg
+packages/
+project.lock.json
+
+## Logs
+*.log
+logs/
+
+## Others
+*.tmp
+*.bak
+*.old
+*.swp
+*.db
+
+## AWS Lambda
+*.aws-lambda-tools-defaults.json
