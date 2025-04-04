@@ -18,7 +18,7 @@ namespace Authentication.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            _logger.LogInformation("WeatherForecastController constructor hit!");
+            _logger.LogInformation("WeatherForecastController constructor hit2!");
         }
         //[Authorize]
         [HttpGet("GetWeatherForecast")]

@@ -19,7 +19,7 @@ namespace Authentication.Controllers
         public AuthController(ILogger<AuthController> logger)
         {
             _logger = logger;
-            _logger.LogInformation("WeatherForecastController constructor hit!");
+            _logger.LogInformation("AuthController constructor hit 2!");
         }
         [HttpPost("Authenticate")]
 
