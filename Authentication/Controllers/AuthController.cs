@@ -2,7 +2,7 @@
 using System.Net;
 using System.Security.Claims;
 using System.Text;
-using Authentication.Core;
+using Authentication.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
