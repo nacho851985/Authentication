@@ -14,6 +14,13 @@ namespace Authentication.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly ILogger<AuthController> _logger;
+
+        public AuthController(ILogger<AuthController> logger)
+        {
+            _logger = logger;
+            _logger.LogInformation("WeatherForecastController constructor hit!");
+        }
         [HttpPost("Authenticate")]
 
         public IActionResult Authenticate([FromBody] User user)
