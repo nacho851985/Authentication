@@ -1,6 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using System.Text;
+using Authentication.Core.Interfaces;
+using Authentication.Core.Services;
+using Microsoft.Extensions.Logging;
+using Authentication.Controllers;
 
 namespace Authentication
 {
@@ -8,6 +14,42 @@ namespace Authentication
     {
         public static void Configure(WebApplicationBuilder builder)
         {
+            builder.Configuration.AddEnvironmentVariables(); // 👈 Asegura que se lean las env vars
+
+            // Configura el binding de la sección MongoDBSettings con Environment Override
+            // 1. Configurar las opciones de MongoDB desde appsettings.json
+
+            _ = builder.Services.Configure<MongoDBSettings>(options =>
+            {
+                options.ConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING")
+                    ?? builder.Configuration.GetSection("MongoDBSettings:ConnectionString").Value;
+
+                options.DatabaseName = Environment.GetEnvironmentVariable("MONGO_DB_NAME")
+                    ?? builder.Configuration.GetSection("MongoDBSettings:DatabaseName").Value;
+            });
+
+
+            // 2. Registrar el cliente de MongoDB como Singleton (recomendado)
+            builder.Services.AddSingleton<IMongoClient>(sp =>
+            {
+                // Logging dentro del factory del singleton
+                var logger = sp.GetRequiredService<ILogger<Program>>();
+                var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
+                logger.LogInformation("MongoDB connecting to database: {DatabaseName}", settings.DatabaseName);
+                return new MongoClient(settings.ConnectionString);
+            });
+
+            // 3. Opcional pero útil: Registrar IMongoDatabase
+            builder.Services.AddScoped<IMongoDatabase>(sp =>
+            {
+                var client = sp.GetRequiredService<IMongoClient>();
+                var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
+                return client.GetDatabase(settings.DatabaseName);
+            });
+            // 4. (Recomendado) Registrar tu propio servicio/repositorio
+            builder.Services.AddScoped<IUserService, UserService>();
+
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -45,6 +87,12 @@ namespace Authentication
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
+        }
+
+        public class MongoDBSettings
+        {
+            public string ConnectionString { get; set; } = null!;
+            public string DatabaseName { get; set; } = null!;
         }
     }
 }
