@@ -13,6 +13,7 @@ TestResults/
 ## ASP.NET
 appsettings.Development.json
 appsettings.Local.json
+appsettings.json
 secrets.json
 
 ## Rider

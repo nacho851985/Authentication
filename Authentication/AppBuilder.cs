@@ -48,6 +48,7 @@ namespace Authentication
             });
             // 4. (Recomendado) Registrar tu propio servicio/repositorio
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
 
             builder.Services.AddControllers();

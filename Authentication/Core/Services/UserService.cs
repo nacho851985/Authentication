@@ -25,9 +25,24 @@ namespace Authentication.Core.Services
             return userList;
         }
 
-        public Task<User?> GetByIdAsync(string id)
+        public async Task<User?> GetByNameAndPasswordAsync(string name, string password)
         {
-            throw new NotImplementedException();
+            var filter = Builders<User>.Filter.Eq(u => u.Username, name) &
+                   Builders<User>.Filter.Eq(u => u.Password, password);
+
+
+            var result = await _UserCollection.Find(filter)
+                                           .FirstOrDefaultAsync();
+            if (result != null)
+            {
+                Console.WriteLine("ID encontrado: " + result.Id);
+            }
+            else
+            {
+                Console.WriteLine("No se encontró el usuario.");
+            }
+
+            return result;
         }
 
         public Task UpdateAsync(string id, User updatedUser)
