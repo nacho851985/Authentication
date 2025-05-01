@@ -93,6 +93,7 @@ namespace Authentication
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowFrontend");
             //app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
