@@ -1,4 +1,5 @@
-﻿using Authentication.Core.Interfaces;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Authentication.Core.Interfaces;
 using Authentication.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +11,7 @@ namespace Authentication.Core.Services
 {
     public class AuthService : IAuthService
     {
-        public Token Authenticate(User user)
+        public APIGatewayProxyResponse Authenticate(User user)
         {
 
             IList<Claim> claims = new List<Claim>

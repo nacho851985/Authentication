@@ -1,9 +1,10 @@
-﻿using Authentication.Core.Models;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Authentication.Core.Models;
 
 namespace Authentication.Core.Interfaces
 {
     public interface IAuthService
     {
-        public Token Authenticate(User user);
+        public APIGatewayProxyResponse Authenticate(User user);
     }
 }

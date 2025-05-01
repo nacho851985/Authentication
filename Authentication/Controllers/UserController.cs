@@ -1,4 +1,5 @@
-﻿using Authentication.Core.Interfaces;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Authentication.Core.Interfaces;
 using Authentication.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,10 +23,10 @@ namespace Authentication.Controllers
 
         //[Authorize]
         [HttpGet("GetUser")]
-        public async Task<Token> GetUser(string name, string password)
+        public async Task<APIGatewayProxyResponse> GetUser(string name, string password)
         {
             var user = await _IUserService.GetByNameAndPasswordAsync(name, password);
-            var token = new Token();
+            var token = new APIGatewayProxyResponse();
             if (user != null)
             {
                 token = _IAuthService.Authenticate(user);

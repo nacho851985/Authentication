@@ -1,7 +1,9 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace Authentication.Core.Models
 {
@@ -10,7 +12,8 @@ namespace Authentication.Core.Models
         public string access_token { get; set; }
         public DateTime expires_at { get; set; }
 
-        public Token BuildToken(IList<Claim> claims) {
+        public APIGatewayProxyResponse BuildToken(IList<Claim> claims)
+        {
             var explationDate = DateTime.UtcNow.AddMinutes(10);
 
             Token token = new Token
@@ -19,8 +22,24 @@ namespace Authentication.Core.Models
                 expires_at = explationDate
             };
 
-            return token;
+            return BuildCorsResponse(220, JsonSerializer.Serialize(new { token }));
         }
+
+        private APIGatewayProxyResponse BuildCorsResponse(int statusCode, string body)
+        {
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = statusCode,
+                Headers = new Dictionary<string, string>
+                {
+                    { "Access-Control-Allow-Origin", "*" },
+                    { "Access-Control-Allow-Methods", "POST, OPTIONS" },
+                    { "Access-Control-Allow-Headers", "Content-Type, Authorization" }
+                },
+                Body = body,
+            };
+        }
+
         private string CreateToken(IEnumerable<Claim> claims, DateTime expireAt)
         {
             var jwt = new JwtSecurityToken(
