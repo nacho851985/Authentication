@@ -33,8 +33,8 @@ namespace Authentication.Core.Models
                 Headers = new Dictionary<string, string>
                 {
                     { "Access-Control-Allow-Origin", "*" },
-                    { "Access-Control-Allow-Methods", "POST, OPTIONS" },
-                    { "Access-Control-Allow-Headers", "Content-Type, Authorization" }
+                    { "Access-Control-Allow-Headers", "Content-Type, Authorization" },
+                    { "Access-Control-Allow-Methods", "POST, GET, OPTIONS" }
                 },
                 Body = body,
             };
