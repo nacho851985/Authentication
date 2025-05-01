@@ -12,7 +12,7 @@ namespace Authentication.Core.Models
         public string access_token { get; set; }
         public DateTime expires_at { get; set; }
 
-        public APIGatewayProxyResponse BuildToken(IList<Claim> claims)
+        public Token BuildToken(IList<Claim> claims)
         {
             var explationDate = DateTime.UtcNow.AddMinutes(10);
 
@@ -22,7 +22,8 @@ namespace Authentication.Core.Models
                 expires_at = explationDate
             };
 
-            return BuildCorsResponse(220, JsonSerializer.Serialize(new { token }));
+            return token;
+            //return BuildCorsResponse(220, JsonSerializer.Serialize(new { token }));
         }
 
         private APIGatewayProxyResponse BuildCorsResponse(int statusCode, string body)

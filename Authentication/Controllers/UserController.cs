@@ -23,10 +23,10 @@ namespace Authentication.Controllers
 
         //[Authorize]
         [HttpGet("GetUser")]
-        public async Task<APIGatewayProxyResponse> GetUser(string name, string password)
+        public async Task<Token> GetUser(string name, string password)
         {
             var user = await _IUserService.GetByNameAndPasswordAsync(name, password);
-            var token = new APIGatewayProxyResponse();
+            var token = new Token();
             if (user != null)
             {
                 token = _IAuthService.Authenticate(user);

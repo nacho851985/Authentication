@@ -11,7 +11,7 @@ namespace Authentication.Core.Services
 {
     public class AuthService : IAuthService
     {
-        public APIGatewayProxyResponse Authenticate(User user)
+        public Token Authenticate(User user)
         {
 
             IList<Claim> claims = new List<Claim>

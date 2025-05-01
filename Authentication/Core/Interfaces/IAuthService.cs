@@ -5,6 +5,6 @@ namespace Authentication.Core.Interfaces
 {
     public interface IAuthService
     {
-        public APIGatewayProxyResponse Authenticate(User user);
+        public Token Authenticate(User user);
     }
 }
