@@ -23,15 +23,27 @@ namespace Authentication.Controllers
 
         //[Authorize]
         [HttpGet("GetUser")]
-        public async Task<Token> GetUser(string name, string password)
+        public async Task<IActionResult> GetUser(string name, string password)
         {
             var user = await _IUserService.GetByNameAndPasswordAsync(name, password);
             var token = new Token();
             if (user != null)
             {
                 token = _IAuthService.Authenticate(user);
-            } 
-            return token;
+                return Ok(new
+                {
+                    token
+                });
+            }
+            else
+            {
+                return Unauthorized(new
+                {
+                    error = "Unauthorized",
+                    message = "Authentication failed. Invalid credentials."
+                });
+            }
+
         }
 
         public IActionResult Index()
